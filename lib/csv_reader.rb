@@ -15,15 +15,36 @@ class CSVReader
     end
   end
 
-  def count_for_refuse_accumulation
-    @full_data.count do |row|
-      row[:violation_type] == "Refuse Accumulation"
+  def violation_types
+    @full_data.map do |row|
+      row[:violation_type]
+    end.uniq
+  end
+
+  def count_for_violation_types
+    violation_types.reduce({}) do |result, violation|
+      result[violation] = @full_data.count do |row|
+        row[:violation_type] == violation
+      end
+      result
     end
   end
 
-  def count_for_unsanitary_conditions
-    @full_data.count do |row|
-      row[:violation_type] == "Unsanitary conditions, not specified"
+  def date_of_earliest_violation
+    violation_types.reduce({}) do |result, violation|
+      result[violation] = @full_data.min_by do |row|
+        row[:violation_date]
+      end
+      result
+    end
+  end
+
+  def date_of_latest_violation
+    violation_types.reduce({}) do |result, violation|
+      result[violation] = @full_data.max_by do |row|
+        row[:violation_date]
+      end
+      result
     end
   end
 

@@ -22,16 +22,18 @@ class CSVReaderTest < Minitest::Test
     assert_equal "204852", csv.full_data[1][:violation_id]
   end
 
-  def test_count_for_refuse_accumulation
+  def test_count_for_violation_types
     csv = CSVReader.new("./lib/data/code_violations.csv")
 
-    assert_equal 106, csv.count_for_refuse_accumulation
+    assert_instance_of Hash, csv.count_for_violation_types
+    assert_equal 106, csv.count_for_violation_types["Refuse Accumulation"]
   end
 
-  def test_count_for_unsanitary_conditions
+  def test_date_of_earliest_violation
     csv = CSVReader.new("./lib/data/code_violations.csv")
 
-    assert_equal 74, csv.count_for_unsanitary_conditions
+    assert_instance_of Hash, csv.date_of_earliest_violation
+    assert_equal "2012-01-03 00:00:00", csv.date_of_earliest_violation["Refuse Accumulation"][:violation_date]
   end
 
 end
