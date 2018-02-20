@@ -36,4 +36,11 @@ class CSVReaderTest < Minitest::Test
     assert_equal "2012-01-03 00:00:00", csv.date_of_earliest_violation["Refuse Accumulation"][:violation_date]
   end
 
+  def test_date_of_latest_violation
+    csv = CSVReader.new("./lib/data/code_violations.csv")
+
+    assert_instance_of Hash, csv.date_of_earliest_violation
+    assert_equal "2012-12-28 00:00:00", csv.date_of_latest_violation["Refuse Accumulation"][:violation_date]
+  end
+
 end
