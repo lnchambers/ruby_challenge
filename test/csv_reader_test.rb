@@ -25,8 +25,7 @@ class CSVReaderTest < Minitest::Test
   def test_count_for_violation_types
     csv = CSVReader.new("./lib/data/code_violations.csv")
 
-    assert_instance_of Hash, csv.count_for_violation_types
-    assert_equal 106, csv.count_for_violation_types["Refuse Accumulation"]
+    assert_equal 106, csv.count_for_violation_types("Refuse Accumulation")
   end
 
   def test_date_of_earliest_violation

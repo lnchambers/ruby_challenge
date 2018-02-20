@@ -21,12 +21,9 @@ class CSVReader
     end.uniq
   end
 
-  def count_for_violation_types
-    violation_types.reduce({}) do |result, violation|
-      result[violation] = @full_data.count do |row|
-        row[:violation_type] == violation
-      end
-      result
+  def count_for_violation_types(violation)
+    @full_data.count do |row|
+      row[:violation_type] == violation
     end
   end
 
@@ -45,6 +42,12 @@ class CSVReader
         row[:violation_date]
       end
       result
+    end
+  end
+
+  def print_table
+    violation_types.each do |violation|
+      puts "#{violation} has had #{count_for_violation_types(violation)} with the earliest being #{date_of_earliest_violation(violation)} and the latest being #{date_of_latest_violation(violation)}"
     end
   end
 
